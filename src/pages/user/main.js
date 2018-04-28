@@ -5,6 +5,6 @@ const app = new Vue(App)
 app.$mount()
 export default {
   config: {
-    window: { enablePullDownRefresh: true }
+      navigationBarTitleText: '个人主页'
   }
 }

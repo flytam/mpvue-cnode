@@ -7,7 +7,7 @@
       <div :class='{ active: tab==="job" }' @click.stop='changeTab($event)' data-tab='job'>招聘</div>
       <div :class='{ active: tab==="ask" }' @click.stop='changeTab($event)' data-tab='ask'>问答</div>
     </div>
-    <scroll-view scroll-y class='scroll-container'>
+    <scroll-view scroll-y class='scroll-container' @scrolltolower='getMore'>
       <div v-for='item in cardData' :key='item.id' :data-id='item.id' @click.stop="goDetail($event)">
         <card :item='item'></card>
       </div>
@@ -18,12 +18,14 @@
 <script>
 import card from "@/components/card";
 import { api } from "../../const";
+import { getURL } from "../../utils/index";
 export default {
   data() {
     return {
       page: 0,
       tab: "all",
-      cardData: []
+      cardData: [],
+      isLoading: false
     };
   },
 
@@ -32,31 +34,50 @@ export default {
   },
   watch: {},
   mounted() {
-    this.getData("all");
+    this.getData("all", 0);
   },
   methods: {
-    async getData(tab, init) {
+    async getData(tab, page) {
       wx.showLoading({ title: "加载中" });
+      this.isLoading = true;
       const res = await this.$http.get(`${api}/topics`, {
         tab,
-        limit: 10,
-        page: this.page
+        limit: 5,
+        page
       });
-      //输出请求数据
       wx.hideLoading();
       if (res.data.success) {
-        this.cardData = res.data.data;
+        if (this.cardData.length > 0 && page === 0) {
+          // 下拉刷新
+          this.cardData = res.data.data;
+        } else {
+          // 底部加载更多
+          this.cardData = [...this.cardData, ...res.data.data];
+        }
       } else {
+        // 获取数据失败
       }
+      this.isLoading = false;
+    },
+    async getMore() {
+      if (!this.isLoading) {
+        await this.getData(this.tab,this.page+1);
+        this.page += 1;
+      }
+    },
+    async onPullDownRefresh(){
+      await this.getData(this.tab,0);
+      wx.stopPullDownRefresh();
     },
     changeTab(e) {
       const currentTab = e.target.dataset.tab;
       this.tab = currentTab;
-      this.getData(currentTab);
+      this.page = 0;
+      this.getData(currentTab,0);
     },
     goDetail(e) {
       wx.setStorageSync("id", e.currentTarget.dataset.id);
-      console.log(e.currentTarget.dataset.id);
+      // console.log(e.currentTarget.dataset.id);
       wx.navigateTo({
         url: "../detail/main"
       });
@@ -78,7 +99,7 @@ export default {
 }
 .header > div {
   width: 20%;
-  background-color: rgb(65, 184, 131);
+  background-color: #41b883;
   color: white;
   text-align: center;
   height: 86rpx;
