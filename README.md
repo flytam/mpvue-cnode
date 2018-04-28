@@ -11,7 +11,7 @@ API来自于cnode社区
 ``` bash
 # install dependencies
 npm install
-
+```
 开发模式
 ```
 npm run dev
@@ -30,3 +30,8 @@ npm run dev
     - user 用户主页
   - components
     - card
+
+目前效果图
+
+
+![demo1](img/home.png)
