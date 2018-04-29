@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <input type="text" v-model='accesstoken'>
-    <button @click.stop="login">登录</button>
+    <input class='input' type="text" v-model='accesstoken' placeholder='请输入accesstoken'>
+    <button class='button' :disabled='!accesstoken.length' @click.stop="login">登录</button>
     <div @click.stop='back'>X</div>
   </div>
 </template>
@@ -26,3 +26,17 @@ export default {
   }
 }
 </script>
+<style scoped>
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button{
+  width:600rpx;
+}
+.input{
+  border-bottom: 2rpx solid #888;
+  width:600rpx;
+}
+</style>
