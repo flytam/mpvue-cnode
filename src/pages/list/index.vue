@@ -20,10 +20,21 @@ export default {
   },
   onShow() {
     const from = wx.getStorageSync("fromItem");
-    wx.setNavigationBarTitle({
-      title: `${from === "topic" ? "最近话题" : "最近回复"}`
-    });
-    this.getData(from);
+    // from 最近话题 最近回复
+    switch (from) {
+      case "topic":
+      case "reply":
+        this.getData(from);
+        wx.setNavigationBarTitle({
+          title: `${from === "topic" ? "最近话题" : "最近回复"}`
+        });
+        break;
+      case "collect":
+        this.getCollect();
+        wx.setNavigationBarTitle({
+          title: `我的收藏`
+        });
+    }
   },
   methods: {
     async getData(from) {
@@ -32,21 +43,31 @@ export default {
         const res = await this.$http.get(`${api}/user/${me}`);
         if (res.data.success) {
           this.currentData =
-            from === "topic" ? res.data.data.recent_topics : res.data.data.recent_replies;
+            from === "topic"
+              ? res.data.data.recent_topics
+              : res.data.data.recent_replies;
         }
       } else {
         console.log("no me");
+      }
+    },
+    async getCollect() {
+      // /topic_collect/
+      const me = wx.getStorageSync("me");
+      const res = await this.$http.get(`${api}/topic_collect/${me}`);
+      if (res.data.success) {
+        this.currentData = res.data.data;
       }
     }
   }
 };
 </script>
 <style scoped>
-.container{
+.container {
   background-color: rgb(245, 245, 249);
   min-height: 100vh;
 }
-.margin{
+.margin {
   margin-bottom: 20rpx;
 }
 </style>

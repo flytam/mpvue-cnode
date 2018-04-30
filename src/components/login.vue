@@ -49,6 +49,7 @@ export default {
   background-color: white;
   height: 100vh;
   width: 100vw;
+  z-index: 2333
 }
 .container{
   display: flex;

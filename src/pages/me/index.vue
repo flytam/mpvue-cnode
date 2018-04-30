@@ -3,7 +3,8 @@
     <login :visible='visible' v-on:modalClose='closeModalEvent'></login>
     <authorHead :user='user'></authorHead>
     <div class='body'>
-      <navigator class='list-item margin' @click.stop='setListFrom' url='/pages/list/main' data-item='topic'>最近话题</navigator>
+      <navigator class='list-item margin' @click.stop='setListFrom' url='/pages/list/main' data-item='collect'>我的收藏</navigator>
+      <navigator class='list-item' @click.stop='setListFrom' url='/pages/list/main' data-item='topic'>最近话题</navigator>
       <navigator class='list-item' @click.stop='setListFrom' url='/pages/list/main' data-item='reply'>最近回复</navigator>
       <div class='list-item' @click='logout'>登出</div>
     </div>

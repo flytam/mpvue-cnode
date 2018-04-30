@@ -10,6 +10,7 @@
     "build": "rimraf dist && node build/build.js"
   },
   "dependencies": {
+    "autolinker": "^1.6.2",
     "flyio": "^0.5.5",
     "mpvue": "^1.0.9",
     "vuex": "^2.3.1"

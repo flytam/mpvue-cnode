@@ -5,7 +5,7 @@
       <div class='info'>
         <span>{{item.author.loginname}}</span>
         <span class='time' v-if='!hidden'>{{formatCreateAt}}</span>
-      </div>222
+      </div>
     </div>
     <div class='body'>
       <p>{{item.title}}</p>
@@ -49,7 +49,7 @@ export default {
       wx.navigateTo({ url: "../user/main" });
     },
     goDetail() {
-      wx.setStorageSync("id", this.item.id);
+      wx.setStorageSync("topicid", this.item.id);
       wx.navigateTo({
         url: "../detail/main"
       });
