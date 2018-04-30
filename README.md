@@ -33,11 +33,13 @@ npm run dev
     - card 单一帖子头组件
     - authorHead 作者信息头
     - login 登录组件
-
-目前已经完成了绝大部分功能
+  - const.js 常量
+  - utils 一些工具函数
+- static 静态图片部分
+目前已经完成了绝大部分功能，尚未完成的功能在和遇到的问题在todo中
 
 目前存在的问题
-- 小程序无法动态插入dom，markdwon的解析有点问题， [wemark](https://github.com/TooBug/wemark)在mpvue上使用需要改造下
+- 小程序无法动态插入dom，markdwon的解析有点问题， [wemark](https://github.com/TooBug/wemark)在mpvue上使用需要改造下。待填坑
 
 
 todo
@@ -49,6 +51,13 @@ todo
   - 编辑自己发过的主题
   - 展示未读消息数和消息已读
   - 部分页面添加下拉刷新
+  - 主页几个tab切换有点bug
+后话：
+
+这个项目没有涉及到太多复杂的部分，主要到是业务逻辑的开发，对于作为一个vue和mpvue小程序入门项目是非常合适的。由于开发时间短，部分代码质量和交互做得不太好。对于未完成的部分和部分未知bug欢迎各位star、提issue、提pr一起来玩2333.
+
+效果图
+
 
 - License
 MIT

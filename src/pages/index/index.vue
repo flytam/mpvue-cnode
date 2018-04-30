@@ -49,9 +49,11 @@ export default {
       if (res.data.success) {
         if (this.cardData.length > 0 && page === 0) {
           // 下拉刷新
+          console.log("新的", res.data.data, tab);
           this.cardData = res.data.data;
+          // res.data.data;
         } else {
-          // 底部加载更多
+          // 底部加载更多 h和初始得时候
           this.cardData = [...this.cardData, ...res.data.data];
         }
       } else {
@@ -61,19 +63,19 @@ export default {
     },
     async getMore() {
       if (!this.isLoading) {
-        await this.getData(this.tab,this.page+1);
+        await this.getData(this.tab, this.page + 1);
         this.page += 1;
       }
     },
-    async onPullDownRefresh(){
-      await this.getData(this.tab,0);
+    async onPullDownRefresh() {
+      await this.getData(this.tab, 0);
       wx.stopPullDownRefresh();
     },
     changeTab(e) {
       const currentTab = e.target.dataset.tab;
       this.tab = currentTab;
       this.page = 0;
-      this.getData(currentTab,0);
+      this.getData(currentTab, 0);
     }
   }
 };
