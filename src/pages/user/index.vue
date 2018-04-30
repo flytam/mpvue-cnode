@@ -1,18 +1,13 @@
 <template>
   <div class='container'>
-     <div class='header'>
-       <img :src='user.avatar_url' class='img'>
-       <span class='span'>{{user.loginname}}</span>
-       <span class='span'>积分:{{user.score}}</span>
-       <span class='span'>C龄:{{formatCreateAt}}</span>
-     </div>
+    <authorHead :user='user'></authorHead>
      <div class='body'>
        <div class='tabs'>
          <div :class='{selected:tab==="reply"}' @click.stop='changeTab($event)' data-tab='reply'>最近回复</div>
          <div :class='{selected:tab==="topics"}' @click.stop='changeTab($event)' data-tab='topics'>最近主题</div>
        </div>
        <div>
-        <div v-for='item in currentData' :key='item.id' :data-id='item.id' @click.stop="goDetail($event)">
+        <div v-for='item in currentData' :key='item.id' :data-id='item.id'>
           <card :item='item' :hidden='true'></card>
         </div>
        </div>
@@ -20,12 +15,13 @@
   </div>
 </template>
 <script>
-import { passTime } from "../../utils/index";
+import authorHead from "../../components/authorHead";
 import { api } from "../../const";
 import card from "../../components/card";
 export default {
   components: {
-    card
+    card,
+    authorHead
   },
   data() {
     return {
@@ -36,9 +32,6 @@ export default {
     };
   },
   computed: {
-    formatCreateAt() {
-      return passTime(this.user.create_at).slice(0, -1);
-    },
     currentData() {
       return this.tab === "reply" ? this.reply : this.topics;
     }
@@ -60,13 +53,6 @@ export default {
           this.topics = res.data.data.recent_topics;
         }
       }
-    },
-    goDetail(e) {
-      wx.setStorageSync("id", e.currentTarget.dataset.id);
-      // console.log(e.currentTarget.dataset.id);
-      wx.navigateTo({
-        url: "../detail/main"
-      });
     }
   }
 };
@@ -75,22 +61,6 @@ export default {
 <style scoped>
 .container {
   background-color: rgb(245, 245, 249);
-}
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #41b883;
-  font-size: 30rpx;
-}
-.span{
-  margin-top: 20rpx;
-}
-.img {
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 50%;
-  margin-top: 30rpx;
 }
 .body {
   display: flex;

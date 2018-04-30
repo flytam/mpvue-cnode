@@ -8,7 +8,7 @@
       <div :class='{ active: tab==="ask" }' @click.stop='changeTab($event)' data-tab='ask'>问答</div>
     </div>
     <scroll-view scroll-y class='scroll-container' @scrolltolower='getMore'>
-      <div v-for='item in cardData' :key='item.id' :data-id='item.id' @click.stop="goDetail($event)">
+      <div v-for='item in cardData' :key='item.id'>
         <card :item='item'></card>
       </div>
     </scroll-view>
@@ -74,13 +74,6 @@ export default {
       this.tab = currentTab;
       this.page = 0;
       this.getData(currentTab,0);
-    },
-    goDetail(e) {
-      wx.setStorageSync("id", e.currentTarget.dataset.id);
-      // console.log(e.currentTarget.dataset.id);
-      wx.navigateTo({
-        url: "../detail/main"
-      });
     }
   }
 };

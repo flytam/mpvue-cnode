@@ -1,11 +1,11 @@
 <template>
-  <div class='container'>
+  <div class='container' @click.stop="goDetail($event)">
     <div class='head'>
-      <img class='head-img' :src='item.author.avatar_url' :data-loginname='item.author.loginname' @click.stop='goAuthorPage($event)'>
+      <img class='head-img' :src='item.author.avatar_url' :data-loginname='item.author.loginname' @click.stop='goAuthorPage'>
       <div class='info'>
         <span>{{item.author.loginname}}</span>
         <span class='time' v-if='!hidden'>{{formatCreateAt}}</span>
-      </div>
+      </div>222
     </div>
     <div class='body'>
       <p>{{item.title}}</p>
@@ -44,9 +44,15 @@ export default {
   methods: {
     goAuthorPage(e) {
       // e.currentTarget.dataset.author
-      console.log( e)
+      console.log(e);
       wx.setStorageSync("loginname", e.currentTarget.dataset.loginname);
       wx.navigateTo({ url: "../user/main" });
+    },
+    goDetail() {
+      wx.setStorageSync("id", this.item.id);
+      wx.navigateTo({
+        url: "../detail/main"
+      });
     }
   }
 };

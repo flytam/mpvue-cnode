@@ -35,3 +35,7 @@ npm run dev
 
 
 ![demo1](img/home.png)
+
+
+bug记录
+- switchTabTo 跳回主页会报错
