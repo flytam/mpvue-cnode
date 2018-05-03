@@ -39,7 +39,7 @@ npm run dev
 目前已经完成了绝大部分功能，尚未完成的功能在和遇到的问题在todo中
 
 目前存在的问题
-- 小程序无法动态插入dom，markdwon的解析有点问题， [wemark](https://github.com/TooBug/wemark)在mpvue上使用需要改造下。待填坑
+- ～～小程序无法动态插入dom，markdwon的解析有点问题~~， [wemark](https://github.com/TooBug/wemark)在mpvue上使用需要改造下。待填坑使用[mpvue-wxWarse](https://github.com/F-loat/mpvue-wxParse)解决
 
 
 todo

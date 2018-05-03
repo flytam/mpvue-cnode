@@ -18,11 +18,8 @@
       </div>
       <div class='reply-buton'>评论</div>
       <div class='content'>
-        {{detailData.content}}
-        <!-- <import src='./wemark/wemark.wxml'/>
-              <template is="wemark" :data="{...wemark}">
-</template>-->
-        <!-- <wemark :wemark='wemark'></wemark> -->
+        <!-- {{detailData.content}} -->
+        <wemark :mdData='detailData.content'></wemark>
       </div>
       <div class='reply'>
         <div>评论：</div>
@@ -34,7 +31,9 @@
               <span class='time'>{{item.create_at}}</span>
             </div>
           </div>
-          <p class='reply-content'>{{item.content}}</p>
+          <p class='reply-content'>
+            <wemark :mdData='item.content'></wemark>
+          </p>
           <div class='foot'>
             <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' v-if='!item.is_uped' src='../../../static/good1.png' /><img class='icon' v-if='item.is_uped' src='../../../static/good2.png'/><span>点赞:{{item.ups.length}}</span></div>
             <div><img class='icon' src='../../../static/chat.png'/><span>回复</span></div>
@@ -48,8 +47,7 @@
 <script>
 import { api } from "../../const";
 import { passTime } from "../../utils";
-import { parse } from "./wemark1/wemark.js";
-import wemark from "./wemark1/wemark.vue";
+import wemark  from "mpvue-wemark";
 export default {
   components: {
     wemark
@@ -82,19 +80,19 @@ export default {
       wx.showLoading({
         title: "加载中"
       });
-      const res = await this.$http.get(`${api}/topic/${id}`, {
-        mdrender: false
+      const res = await this.$http.get(`${api}/topic/${id}`,{
+        mdrender:false
       });
       wx.hideLoading();
       if (res.data.success) {
         this.detailData = res.data.data;
-        parse(res.data.data.content, this);
+        //this.article = res.data.content;
       } else {
       }
     },
     async upOrCancel(e) {
-      // todo 防抖
-      console.log(e);
+      // / todo 防抖
+      // console.log(e);
       const accesstoken = wx.getStorageSync("accesstoken");
       if (accesstoken) {
         const res = await this.$http.post(
@@ -129,13 +127,11 @@ export default {
   },
   data() {
     return {
-      detailData: {},
-      wemark: {}
+      detailData: {}
     };
   }
 };
 </script>
-
 <style scoped>
 .container {
   min-height: 100vh;
