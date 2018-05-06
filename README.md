@@ -33,6 +33,7 @@ npm run dev
     - card 单一帖子头组件
     - authorHead 作者信息头
     - login 登录组件
+    - sendreply 回复、评论组建
   - const.js 常量
   - utils 一些工具函数
 - static 静态图片部分

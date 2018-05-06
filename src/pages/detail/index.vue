@@ -1,42 +1,46 @@
 <template>
   <div class='container'>
-    <div class='header'>
-      <div class='author'>
-        <img class='author-img' :src='detailData.author && detailData.author.avatar_url' alt="头像">
-        <span class='name'>{{detailData.author&& detailData.author.loginname}}</span>
-      </div>
-      <span>楼主</span>
+    <div v-if='sendVisible'>
+      <sendReply  @close-modal='closeModal' @reply-success='replySuccess' :content='atWho' :topicId='id' :replyId='replyId'></sendReply>
     </div>
-    <div class='body'>
-      <div class='title'>
-        <p class='big'>{{detailData.title}}</p>
-        <div class='time-info'>
-          <span>发布于:{{formatCreateAt}}</span>
-          <span>浏览:{{detailData.visit_count}}</span>
-          <span>评论:{{detailData.reply_count}}</span>
+    <div>
+      <div class='header'>
+        <div class='author'>
+          <img class='author-img' :src='detailData.author && detailData.author.avatar_url' alt="头像">
+          <span class='name'>{{detailData.author&& detailData.author.loginname}}</span>
         </div>
+        <span>楼主</span>
       </div>
-      <div class='reply-buton'>评论</div>
-      <div class='content'>
-        <!-- {{detailData.content}} -->
-        <wemark :mdData='detailData.content'></wemark>
-      </div>
-      <div class='reply'>
-        <div>评论：</div>
-        <div class='reply-container' v-for='(item,originindex) in formatReplies' :key='item.id' :data-id='item.id'>
-            <div class='head'>
-            <img class='head-img' :src='item.author.avatar_url' :data-loginname='item.author.loginname' @click.stop='goAuthorPage'>
-            <div class='info'>
-              <span>{{item.author.loginname}}</span>
-              <span class='time'>{{item.create_at}}</span>
-            </div>
+      <div class='body'>
+        <div class='title'>
+          <p class='big'>{{detailData.title}}</p>
+          <div class='time-info'>
+            <span>发布于:{{formatCreateAt}}</span>
+            <span>浏览:{{detailData.visit_count}}</span>
+            <span>评论:{{detailData.reply_count}}</span>
           </div>
-          <p class='reply-content'>
-            <wemark :mdData='item.content'></wemark>
-          </p>
-          <div class='foot'>
-            <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' v-if='!item.is_uped' src='../../../static/good1.png' /><img class='icon' v-if='item.is_uped' src='../../../static/good2.png'/><span>点赞:{{item.ups.length}}</span></div>
-            <div><img class='icon' src='../../../static/chat.png'/><span>回复</span></div>
+        </div>
+        <div v-if='!sendVisible' class='reply-buton' @click.stop="showReplyModal">评论</div>
+        <div class='content'>
+          <wemark :mdData='detailData.content'></wemark>
+        </div>
+        <div class='reply'>
+          <div>评论：</div>
+          <div class='reply-container' v-for='(item,originindex) in formatReplies' :key='item.id' :data-id='item.id'>
+            <div class='head'>
+              <img class='head-img' :src='item.author.avatar_url' :data-loginname='item.author.loginname' @click.stop='goAuthorPage'>
+              <div class='info'>
+                <span>{{item.author.loginname}}</span>
+                <span class='time'>{{item.create_at}}</span>
+              </div>
+            </div>
+            <p class='reply-content'>
+              <wemark :mdData='item.content'></wemark>
+            </p>
+            <div class='foot'>
+              <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' v-if='!item.is_uped' src='../../../static/good1.png' /><img class='icon' v-if='item.is_uped' src='../../../static/good2.png' /><span>点赞:{{item.ups.length}}</span></div>
+              <div @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='../../../static/chat.png' /><span>回复</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -47,10 +51,12 @@
 <script>
 import { api } from "../../const";
 import { passTime } from "../../utils";
-import wemark  from "mpvue-wemark";
+import sendReply from "../../components/sendReply";
+import wemark from "mpvue-wemark";
 export default {
   components: {
-    wemark
+    wemark,
+    sendReply
   },
   mounted() {
     this.getData();
@@ -74,14 +80,17 @@ export default {
       );
     }
   },
+  created() {
+    this.id = wx.getStorageSync("topicid");
+  },
   methods: {
-    async getData(tab, init) {
-      const id = wx.getStorageSync("topicid");
+    async getData() {
+      const id = this.id;
       wx.showLoading({
         title: "加载中"
       });
-      const res = await this.$http.get(`${api}/topic/${id}`,{
-        mdrender:false
+      const res = await this.$http.get(`${api}/topic/${id}`, {
+        mdrender: false
       });
       wx.hideLoading();
       if (res.data.success) {
@@ -114,7 +123,6 @@ export default {
             duration: 2000
           });
         }
-
         //  originindex
       } else {
         wx.showToast({
@@ -123,15 +131,37 @@ export default {
           duration: 2000
         });
       }
+    },
+    showReplyModal(e) {
+      console.log(e);
+      this.replyId = e.currentTarget.dataset.replyid;
+      this.sendVisible = true;
+    },
+    replySuccess() {
+      wx.showToast({
+        title: "评论成功",
+        icon: "none",
+        duration: 1500
+      });
+      this.closeModal();
+      this.getData();
+    },
+    closeModal() {
+      this.sendVisible = false;
     }
   },
   data() {
     return {
-      detailData: {}
+      detailData: {},
+      atWho: "",
+      sendVisible: false,
+      id: "",
+      replyId: ""
     };
   }
 };
 </script>
+
 <style scoped>
 .container {
   min-height: 100vh;
@@ -226,7 +256,4 @@ export default {
   margin-bottom: 20rpx;
   padding: 30rpx;
 }
-/* .body{
-        background-color: white;
-      } */
 </style>
