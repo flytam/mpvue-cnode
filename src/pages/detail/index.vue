@@ -1,7 +1,7 @@
 <template>
   <div class='container'>
     <div v-if='sendVisible'>
-      <sendReply  @close-modal='closeModal' @reply-success='replySuccess' :content='atWho' :topicId='id' :replyId='replyId'></sendReply>
+      <sendReply  @close-modal='closeModal' @reply-success='replySuccess' :content='content' :topicId='id' :replyId='replyId'></sendReply>
     </div>
     <div>
       <div class='header'>
@@ -39,7 +39,7 @@
             </p>
             <div class='foot'>
               <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' v-if='!item.is_uped' src='../../../static/good1.png' /><img class='icon' v-if='item.is_uped' src='../../../static/good2.png' /><span>点赞:{{item.ups.length}}</span></div>
-              <div @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='../../../static/chat.png' /><span>回复</span></div>
+              <div :data-loginname='item.author.loginname' @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='../../../static/chat.png' /><span>回复</span></div>
             </div>
           </div>
         </div>
@@ -133,7 +133,13 @@ export default {
       }
     },
     showReplyModal(e) {
-      console.log(e);
+      const replyname = e.currentTarget.dataset.loginname;
+      if (replyname) {
+        this.content = `@${replyname} `;
+      } else {
+        this.content = "";
+      }
+
       this.replyId = e.currentTarget.dataset.replyid;
       this.sendVisible = true;
     },
@@ -153,7 +159,7 @@ export default {
   data() {
     return {
       detailData: {},
-      atWho: "",
+      content: "",
       sendVisible: false,
       id: "",
       replyId: ""
