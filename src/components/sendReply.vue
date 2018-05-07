@@ -23,7 +23,6 @@ export default {
   methods: {
     prevent() {},
     async send() {
-      console.log(this.content, this.replyId, this.topicId);
       const accesstoken = wx.getStorageSync("accesstoken");
       try {
         const res = await this.$http.post(

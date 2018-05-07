@@ -1,17 +1,19 @@
 <template>
   <div class='container'>
     <div class='header'>
-      <div  :class='{ active: tab==="all" }' @click.stop='changeTab($event)' data-tab='all'>全部</div>
+      <div :class='{ active: tab==="all" }' @click.stop='changeTab($event)' data-tab='all'>全部</div>
       <div :class='{ active: tab==="good" }' @click.stop='changeTab($event)' data-tab='good'>精华</div>
       <div :class='{ active: tab==="share" }' @click.stop='changeTab($event)' data-tab='share'>分享</div>
       <div :class='{ active: tab==="job" }' @click.stop='changeTab($event)' data-tab='job'>招聘</div>
       <div :class='{ active: tab==="ask" }' @click.stop='changeTab($event)' data-tab='ask'>问答</div>
     </div>
-    <scroll-view scroll-y class='scroll-container' @scrolltolower='getMore'>
-      <div v-for='item in cardData' :key='item.id'>
-        <card :item='item'></card>
-      </div>
-    </scroll-view>
+    <div v-for='(listItem,listIndex) in list' :key='listIndex' v-show="listItem===tab">
+      <scroll-view scroll-y class='scroll-container' @scrolltolower='getMore'>
+        <div v-for='item in cardData[listItem]' :key='item.id'>
+          <card :item='item'></card>
+        </div>
+      </scroll-view>
+    </div>
   </div>
 </template>
 
@@ -24,11 +26,22 @@ export default {
     return {
       page: 0,
       tab: "all",
-      cardData: [],
-      isLoading: false
+      cardData: {
+        all: [],
+        good: [],
+        share: [],
+        job: [],
+        ask: []
+      },
+      isLoading: false,
+      list: ["all", "good", "share", "job", "ask"]
+      // all: [],
+      // good: [],
+      // share: [],
+      // job: [],
+      // ask: []
     };
   },
-
   components: {
     card
   },
@@ -38,7 +51,9 @@ export default {
   },
   methods: {
     async getData(tab, page) {
-      wx.showLoading({ title: "加载中" });
+      wx.showLoading({
+        title: "加载中"
+      });
       this.isLoading = true;
       const res = await this.$http.get(`${api}/topics`, {
         tab,
@@ -47,14 +62,15 @@ export default {
       });
       wx.hideLoading();
       if (res.data.success) {
-        if (this.cardData.length > 0 && page === 0) {
+        if (this.cardData[tab].length > 0 && page === 0) {
           // 下拉刷新
-          console.log("新的", res.data.data, tab);
-          this.cardData = res.data.data;
+           console.log("新的", res.data.data, tab);
+          
+          this.cardData[tab] = res.data.data;
           // res.data.data;
         } else {
           // 底部加载更多 h和初始得时候
-          this.cardData = [...this.cardData, ...res.data.data];
+          this.cardData[tab] = [...this.cardData[tab], ...res.data.data];
         }
       } else {
         // 获取数据失败

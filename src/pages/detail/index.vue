@@ -38,7 +38,7 @@
               <wemark :mdData='item.content'></wemark>
             </p>
             <div class='foot'>
-              <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' v-if='!item.is_uped' src='../../../static/good1.png' /><img class='icon' v-if='item.is_uped' src='../../../static/good2.png' /><span>点赞:{{item.ups.length}}</span></div>
+              <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' :src="(!item.is_uped)?'../../../static/good1.png':'../../../static/good2.png'" /><span>点赞:{{item.ups.length}}</span></div>
               <div :data-loginname='item.author.loginname' @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='../../../static/chat.png' /><span>回复</span></div>
             </div>
           </div>
@@ -104,6 +104,7 @@ export default {
       // console.log(e);
       const accesstoken = wx.getStorageSync("accesstoken");
       if (accesstoken) {
+        try{
         const res = await this.$http.post(
           `${api}/reply/${e.currentTarget.dataset.replyid}/ups`,
           {
@@ -116,13 +117,17 @@ export default {
             icon: "none",
             duration: 2000
           });
-        } else {
+        }
+        this.getData();
+        }catch(e){
           wx.showToast({
-            title: res.data.error_msg,
+            title: e.response.data.error_msg,
             icon: "none",
             duration: 2000
           });
         }
+
+
         //  originindex
       } else {
         wx.showToast({
