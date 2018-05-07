@@ -64,8 +64,8 @@ export default {
       if (res.data.success) {
         if (this.cardData[tab].length > 0 && page === 0) {
           // 下拉刷新
-           console.log("新的", res.data.data, tab);
-          
+          console.log("新的", res.data.data, tab);
+
           this.cardData[tab] = res.data.data;
           // res.data.data;
         } else {
@@ -96,27 +96,27 @@ export default {
   }
 };
 </script>
-
-<style scoped>
+<style lang="scss" scoped>
 .container {
   background-color: rgb(245, 245, 249);
   font-size: 30rpx;
+  .header {
+    display: flex;
+    & > div {
+      width: 20%;
+      background-color: #41b883;
+      color: white;
+      text-align: center;
+      height: 86rpx;
+      line-height: 86rpx;
+    }
+  }
+  .scroll-container {
+    height: 90vh;
+  }
 }
-.scroll-container {
-  height: 90vh;
-}
-.header {
-  display: flex;
-}
-.header > div {
-  width: 20%;
-  background-color: #41b883;
-  color: white;
-  text-align: center;
-  height: 86rpx;
-  line-height: 86rpx;
-}
-.header > div + .header > div {
+
+.header .header > div + .header > div {
   border-left: 2rpx solid white;
 }
 .active {

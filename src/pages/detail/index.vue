@@ -80,16 +80,14 @@ export default {
       );
     }
   },
-  created() {
-    this.id = wx.getStorageSync("topicid");
-  },
+
   methods: {
     async getData() {
-      const id = this.id;
+      this.id = wx.getStorageSync("topicid");
       wx.showLoading({
         title: "加载中"
       });
-      const res = await this.$http.get(`${api}/topic/${id}`, {
+      const res = await this.$http.get(`${api}/topic/${this.id}`, {
         mdrender: false
       });
       wx.hideLoading();
@@ -104,29 +102,28 @@ export default {
       // console.log(e);
       const accesstoken = wx.getStorageSync("accesstoken");
       if (accesstoken) {
-        try{
-        const res = await this.$http.post(
-          `${api}/reply/${e.currentTarget.dataset.replyid}/ups`,
-          {
-            accesstoken
+        try {
+          const res = await this.$http.post(
+            `${api}/reply/${e.currentTarget.dataset.replyid}/ups`,
+            {
+              accesstoken
+            }
+          );
+          if (res.data.success) {
+            wx.showToast({
+              title: "200",
+              icon: "none",
+              duration: 2000
+            });
           }
-        );
-        if (res.data.success) {
-          wx.showToast({
-            title: "200",
-            icon: "none",
-            duration: 2000
-          });
-        }
-        this.getData();
-        }catch(e){
+          this.getData();
+        } catch (e) {
           wx.showToast({
             title: e.response.data.error_msg,
             icon: "none",
             duration: 2000
           });
         }
-
 
         //  originindex
       } else {
@@ -173,98 +170,99 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
+$color: rgb(65, 184, 131);
 .container {
   min-height: 100vh;
   background-color: rgb(245, 245, 239);
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  background-color: white;
-  margin-bottom: 20rpx;
-  padding: 30rpx;
-}
-.author {
-  color: rgb(65, 184, 131);
-  display: flex;
-  align-items: center;
-}
-.author-img {
-  width: 64rpx;
-  height: 64rpx;
-}
-.head {
-  color: rgb(65, 184, 131);
-  display: flex;
-  align-items: center;
-}
-.head-img {
-  width: 64rpx;
-  height: 64rpx;
-}
-.info {
-  flex-direction: column;
-  display: flex;
-  margin-left: 26rpx;
-}
-.time {
-  color: #888;
-}
-.reply-buton {
-  border-radius: 50%;
-  width: 100rpx;
-  height: 100rpx;
-  text-align: center;
-  font-size: 30rpx;
-  position: fixed;
-  line-height: 100rpx;
-  background-color: rgb(65, 184, 131);
-  top: 86vh;
-  left: 81vw;
-  color: white;
-}
-.title {
-  background-color: white;
-  margin-bottom: 20rpx;
-  padding: 30rpx;
-}
-.reply-container {
-  padding: 30rpx;
-}
-.reply-container + .reply-container {
-  border-top: 2rpx solid #888;
-}
-.reply-content {
-  font-size: 40rpx;
-}
-.content {
-  background-color: white;
-  margin-bottom: 20rpx;
-  padding: 30rpx;
-}
-.icon {
-  width: 56rpx;
-  height: 56rpx;
-}
-.big {
-  font-size: 50rpx;
-}
-.foot {
-  display: flex;
-}
-.foot > div {
-  margin-right: 20rpx;
-  display: flex;
-  align-items: center;
-}
-.time-info {
-  display: flex;
-  justify-content: space-around;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    margin-bottom: 20rpx;
+    padding: 30rpx;
+    .author {
+      color: $color;
+      display: flex;
+      align-items: center;
+      .author-img {
+        width: 64rpx;
+        height: 64rpx;
+      }
+    }
+  }
+  .title {
+    background-color: white;
+    margin-bottom: 20rpx;
+    padding: 30rpx;
+    .big {
+      font-size: 50rpx;
+    }
+    .time-info {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+  .reply-buton {
+    border-radius: 50%;
+    width: 100rpx;
+    height: 100rpx;
+    text-align: center;
+    font-size: 30rpx;
+    position: fixed;
+    line-height: 100rpx;
+    background-color: $color;
+    top: 86vh;
+    left: 81vw;
+    color: white;
+  }
+  .content {
+    background-color: white;
+    margin-bottom: 20rpx;
+    padding: 30rpx;
+  }
 }
 .reply {
   background-color: white;
   margin-bottom: 20rpx;
   padding: 30rpx;
+  .reply-container {
+    padding: 30rpx;
+    .head {
+      color: $color;
+      display: flex;
+      align-items: center;
+      .head-img {
+        width: 64rpx;
+        height: 64rpx;
+      }
+      .info {
+        flex-direction: column;
+        display: flex;
+        margin-left: 26rpx;
+        .time {
+          color: #888;
+        }
+      }
+    }
+    .reply-content {
+      font-size: 40rpx;
+      & + & {
+        border-top: 2rpx solid #888;
+      }
+    }
+    .foot {
+      display: flex;
+      & > div {
+        margin-right: 20rpx;
+        display: flex;
+        align-items: center;
+      }
+      .icon {
+        width: 56rpx;
+        height: 56rpx;
+      }
+    }
+  }
 }
 </style>
