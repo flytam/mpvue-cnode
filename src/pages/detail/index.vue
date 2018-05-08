@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div  class='container'>
     <div v-if='sendVisible'>
       <sendReply  @close-modal='closeModal' @reply-success='replySuccess' :content='content' :topicId='id' :replyId='replyId'></sendReply>
     </div>
@@ -11,7 +11,8 @@
         </div>
         <span>楼主</span>
       </div>
-      <div class='body'>
+
+      <scroll-view class='body' scroll-y='true'  :scroll-top="top" enable-back-to-top='true' @scrolltolower='getMore'>
         <div class='title'>
           <p class='big'>{{detailData.title}}</p>
           <div class='time-info'>
@@ -20,6 +21,7 @@
             <span>评论:{{detailData.reply_count}}</span>
           </div>
         </div>
+        <img class='up-png' src="../../../static/up.png" mode='widthFix' @click.stop="goTop">
         <div v-if='!sendVisible' class='reply-buton' @click.stop="showReplyModal">评论</div>
         <div class='content'>
           <wemark :mdData='detailData.content'></wemark>
@@ -43,7 +45,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </scroll-view>
     </div>
   </div>
 </template>
@@ -66,18 +68,12 @@ export default {
       return passTime(this.detailData.create_at);
     },
     formatReplies() {
-      return (
-        this.detailData &&
-        this.detailData.replies &&
-        this.detailData.replies
-          .map(_ => {
-            return {
-              ..._,
-              create_at: passTime(_.create_at)
-            };
-          })
-          .reverse()
-      );
+      return this.currentReplies.map(_ => {
+        return {
+          ..._,
+          create_at: passTime(_.create_at)
+        };
+      });
     }
   },
 
@@ -93,8 +89,33 @@ export default {
       wx.hideLoading();
       if (res.data.success) {
         this.detailData = res.data.data;
+        this.currentReplies = res.data.data.replies.reverse().splice(0, 10);
+        this.remainReplies = res.data.data.replies;
         //this.article = res.data.content;
       } else {
+      }
+    },
+    goTop() {
+      console.log(11);
+      setTimeout(() => (this.top = 0));
+      this.top = 1;
+      // wx.pageScrollTo({
+      //   scrollTop: 500,
+      //   duration: 300
+      // });
+    },
+    getMore() {
+      if (this.remainReplies.length > 0) {
+        this.currentReplies = [
+          ...this.currentReplies,
+          ...this.remainReplies.splice(0, 10)
+        ];
+      } else {
+        wx.showToast({
+          title: "无更多数据",
+          icon: "none",
+          duration: 2000
+        });
       }
     },
     async upOrCancel(e) {
@@ -161,10 +182,13 @@ export default {
   data() {
     return {
       detailData: {},
+      remainReplies: [],
+      currentReplies: [],
       content: "",
       sendVisible: false,
       id: "",
-      replyId: ""
+      replyId: "",
+      top: 0
     };
   }
 };
@@ -173,7 +197,7 @@ export default {
 <style lang='scss' scoped>
 $color: rgb(65, 184, 131);
 .container {
-  min-height: 100vh;
+  height: 100vh;
   background-color: rgb(245, 245, 239);
   .header {
     display: flex;
@@ -190,6 +214,9 @@ $color: rgb(65, 184, 131);
         height: 64rpx;
       }
     }
+  }
+  .body {
+    height: 90vh;
   }
   .title {
     background-color: white;
@@ -215,6 +242,12 @@ $color: rgb(65, 184, 131);
     top: 86vh;
     left: 81vw;
     color: white;
+  }
+  .up-png {
+    width: 100rpx;
+    top: 75vh;
+    left: 81vw;
+    position: fixed;
   }
   .content {
     background-color: white;

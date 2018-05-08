@@ -41,18 +41,22 @@ npm run dev
 
 目前存在的问题
 
-～～小程序无法动态插入dom，markdwon的解析有点问题， [wemark](https://github.com/TooBug/wemark)在mpvue上使用需要改造下。已封装[mpvue-wemark](https://github.com/673800357/mpvue-wemark)解决
+小程序无法动态插入dom，markdwon的解析有点问题， [wemark](https://github.com/TooBug/wemark)在mpvue上使用需要改造下。已封装[mpvue-wemark](https://github.com/673800357/mpvue-wemark)解决
 
 
 todo
 
   - 帖子收藏和取消收藏功能
   - 评论点赞和收藏的UI同步 // 好像后端有bug
-  - 帖子详情页加载评论时惰性渲染和回到顶部
   - 编辑自己发过的主题
   - 展示未读消息数和消息已读
-  - 部分页面添加下拉刷新
-  - 请求失败状态码非200会抛异常，如何统一优雅处理
+
+
+优化 
+ - 请求失败状态码非200会抛异常，如何统一优雅处理
+ - 部分页面添加下拉刷新
+ - 到顶部代码不清真。
+  
 后话：
 
 这个项目没有涉及到太多复杂的部分，主要到是业务逻辑的开发，对于作为一个vue和mpvue小程序入门项目是非常合适的。由于开发时间短，部分代码质量和交互做得不太好。对于未完成的部分和部分未知bug欢迎各位star、提issue、提pr一起来玩2333.
