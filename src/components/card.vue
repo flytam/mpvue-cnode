@@ -44,14 +44,11 @@ export default {
   methods: {
     goAuthorPage(e) {
       // e.currentTarget.dataset.author
-      console.log(e);
-      wx.setStorageSync("loginname", e.currentTarget.dataset.loginname);
-      wx.navigateTo({ url: "../user/main" });
+      wx.navigateTo({ url: `../user/main?loginname=${e.currentTarget.dataset.loginname}`});
     },
     goDetail() {
-      wx.setStorageSync("topicid", this.item.id);
       wx.navigateTo({
-        url: "../detail/main"
+        url: `../detail/main?topicid=${this.item.id}`
       });
     }
   }

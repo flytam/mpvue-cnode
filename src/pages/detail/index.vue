@@ -9,9 +9,8 @@
           <img class='author-img' :src='detailData.author && detailData.author.avatar_url' alt="头像">
           <span class='name'>{{detailData.author&& detailData.author.loginname}}</span>
         </div>
-        <span>楼主</span>
+        <div class='list'><img @click.stop="collect" :src="detailData.is_collect?'../../../static/star2.png':'../../../static/star1.png'" style='width:40rpx;height:40rpx;'><span>楼主</span></div>
       </div>
-
       <scroll-view class='body' scroll-y='true'  :scroll-top="top" enable-back-to-top='true' @scrolltolower='getMore'>
         <div class='title'>
           <p class='big'>{{detailData.title}}</p>
@@ -79,7 +78,7 @@ export default {
 
   methods: {
     async getData() {
-      this.id = wx.getStorageSync("topicid");
+      //this.id = wx.getStorageSync("topicid");
       wx.showLoading({
         title: "加载中"
       });
@@ -95,8 +94,41 @@ export default {
       } else {
       }
     },
+    async collect() {
+      const accesstoken = wx.getStorageSync("accesstoken");
+      const topic_id = this.id;
+      if (this.detailData.is_collect) {
+        // /topic_collect/de_collect
+        const res = await this.$http.post(`${api}/topic_collect/de_collect`, {
+          accesstoken,
+          topic_id
+        });
+        if (res.data.success) {
+          wx.showToast({
+            title: "取消收藏成功",
+            icon: "none",
+            duration: 2000
+          });
+          this.detailData.is_collect = false;
+        }
+      } else {
+        //  /topic_collect/collect
+        const res = await this.$http.post(`${api}/topic_collect/collect`, {
+          accesstoken,
+          topic_id
+        });
+        if (res.data.success) {
+          wx.showToast({
+            title: "收藏成功",
+            icon: "none",
+            duration: 2000
+          });
+        }
+        this.detailData.is_collect = true;
+      }
+    },
     goTop() {
-      console.log(11);
+      // console.log(11);
       setTimeout(() => (this.top = 0));
       this.top = 1;
       // wx.pageScrollTo({
@@ -179,6 +211,9 @@ export default {
       this.sendVisible = false;
     }
   },
+  onLoad() {
+    this.id = this.$root.$mp.query.topicid;
+  },
   data() {
     return {
       detailData: {},
@@ -213,6 +248,10 @@ $color: rgb(65, 184, 131);
         width: 64rpx;
         height: 64rpx;
       }
+    }
+    .list {
+      display: flex;
+      align-items: center;
     }
   }
   .body {

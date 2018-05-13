@@ -44,7 +44,7 @@ export default {
       this.tab = e.target.dataset.tab;
     },
     async getData() {
-      const loginname = wx.getStorageSync("loginname");
+      const loginname = this.$root.$mp.query.loginname;
       if (loginname) {
         const res = await this.$http.get(`${api}/user/${loginname}`);
         if (res.data.success) {
