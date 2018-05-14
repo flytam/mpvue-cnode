@@ -6,6 +6,14 @@ API来自于[cnode社区](https://cnodejs.org/api)
 
 想熟悉下vue的开发流程，又想体验下mpvue，于是写了个练手项目
 
+线上demo
+
+![](./img/show.jpg)
+
+线上版本更新日志
+
+v0.0.2  帖子评论框修复
+
 ## 预览流程
 
 ``` bash

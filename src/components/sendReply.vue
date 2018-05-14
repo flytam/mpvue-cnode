@@ -67,6 +67,7 @@ export default {
   height: 100vh;
   width: 100vw;
   position: fixed;
+  z-index:1;
   background-color: rgba(0, 0, 0, 0.6);
 }
 .textarea {

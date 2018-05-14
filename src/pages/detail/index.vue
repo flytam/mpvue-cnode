@@ -1,8 +1,6 @@
 <template>
   <div  class='container'>
-    <div v-if='sendVisible'>
-      <sendReply  @close-modal='closeModal' @reply-success='replySuccess' :content='content' :topicId='id' :replyId='replyId'></sendReply>
-    </div>
+      <sendReply v-if='sendVisible' @close-modal='closeModal' @reply-success='replySuccess' :content='content' :topicId='id' :replyId='replyId'></sendReply>
     <div>
       <div class='header'>
         <div class='author'>
