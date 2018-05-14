@@ -83,9 +83,9 @@ export default {
       this.getData();
     },
     goDetail(e) {
-      wx.setStorageSync("topicid",e.target.dataset.topicid);
+      // wx.setStorageSync("topicid",e.target.dataset.topicid);
       wx.navigateTo({
-        url: "../detail/main"
+        url: `../detail/main?topicid=${e.target.dataset.topicid}`
       });
     },
     changeTab(e) {
