@@ -44,7 +44,9 @@ export default {
   methods: {
     goAuthorPage(e) {
       // e.currentTarget.dataset.author
-      wx.navigateTo({ url: `../user/main?loginname=${e.currentTarget.dataset.loginname}`});
+      wx.navigateTo({
+        url: `../user/main?loginname=${e.currentTarget.dataset.loginname}`
+      });
     },
     goDetail() {
       wx.navigateTo({
@@ -55,7 +57,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang='scss'  scoped>
 .container {
   height: 330rpx;
   padding: 30rpx;
@@ -64,39 +66,39 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-.head {
-  color: rgb(65, 184, 131);
-  display: flex;
-  align-items: center;
-}
-.head-img {
-  width: 64rpx;
-  height: 64rpx;
-}
-.info {
-  flex-direction: column;
-  display: flex;
-  margin-left: 26rpx;
-}
-.time {
-  color: #888;
-}
-.body {
-  color: rgb(65, 184, 131);
-}
-.body > p {
-  font-weight: bold;
-}
-.number {
-  color: #888;
-  font-size: 26rpx;
-}
-.number + .number {
-  margin-left: 20rpx;
-}
-.foot {
-  display: flex;
-  justify-content: space-between;
+  .head {
+    color: $color;
+    display: flex;
+    align-items: center;
+    .head-img {
+      width: 64rpx;
+      height: 64rpx;
+    }
+    .info {
+      flex-direction: column;
+      display: flex;
+      margin-left: 26rpx;
+      .time {
+        color: $borderColor;
+      }
+    }
+  }
+  .body {
+    color: $color;
+    & > p {
+      font-weight: bold;
+    }
+  }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    .number {
+      color: $borderColor;
+      font-size: 26rpx;
+      & + & {
+        margin-left: 20rpx;
+      }
+    }
+  }
 }
 </style>

@@ -34,7 +34,7 @@ export default {
           }
         );
         if (res.data.success) {
-          this.content = '';
+          this.content = "";
           this.$emit("reply-success");
         }
       } catch (e) {
@@ -51,32 +51,32 @@ export default {
   }
 };
 </script>
-<style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 20px;
-}
+<style lang='scss' scoped>
 .mask {
   height: 100vh;
   width: 100vw;
   position: fixed;
-  z-index:1;
+  z-index: 1;
   background-color: rgba(0, 0, 0, 0.6);
-}
-.textarea {
-  border: 2rpx solid #888;
-}
-.button {
-  background-color: #41b883;
-  color: white;
-  width: 300rpx;
-  margin-top: 26rpx;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    .textarea {
+      border: 2rpx solid $borderColor;
+    }
+    .button {
+      background-color: $color;
+      color: white;
+      width: 300rpx;
+      margin-top: 26rpx;
+    }
+  }
 }
 </style>

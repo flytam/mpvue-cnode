@@ -58,25 +58,25 @@ export default {
 };
 </script>
 
-<style scoped>
+<style  lang='scss' scoped>
 .container {
   background-color: rgb(245, 245, 249);
-}
-.body {
-  display: flex;
-  flex-direction: column;
-}
-.tabs{
-  display:flex;
-  background-color: white;
-}
-.tabs > div {
-  width: 50%;
-  text-align: center;
-}
-.selected {
-  color: #41b883;
-  border-bottom: 2rpx solid #41b883;
+  .body {
+    display: flex;
+    flex-direction: column;
+    .tabs {
+      display: flex;
+      background-color: white;
+      .selected {
+        color: $color;
+        border-bottom: 2rpx solid $color;
+      }
+      & > div {
+        width: 50%;
+        text-align: center;
+      }
+    }
+  }
 }
 </style>
 

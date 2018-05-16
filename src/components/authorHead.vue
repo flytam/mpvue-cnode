@@ -14,28 +14,28 @@ export default {
   },
   computed: {
     formatCreateAt() {
-      return passTime(this.user&&this.user.create_at).slice(0, -1);
+      return passTime(this.user && this.user.create_at).slice(0, -1);
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #41b883;
+  color: $color;
   font-size: 30rpx;
   background-color: white;
-}
-.img {
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 50%;
-  margin-top: 30rpx;
-}
-.span {
-  margin-top: 20rpx;
+  .img {
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 50%;
+    margin-top: 30rpx;
+  }
+  .span {
+    margin-top: 20rpx;
+  }
 }
 </style>

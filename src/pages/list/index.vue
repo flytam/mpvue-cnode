@@ -62,12 +62,12 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang='scss' scoped>
 .container {
   background-color: rgb(245, 245, 249);
   min-height: 100vh;
-}
-.margin {
-  margin-bottom: 20rpx;
+  .margin {
+    margin-bottom: 20rpx;
+  }
 }
 </style>

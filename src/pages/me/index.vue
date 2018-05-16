@@ -28,14 +28,14 @@ export default {
     login
   },
   methods: {
-    logout(){
-      wx.clearStorageSync('accesstoken');
-      wx.clearStorageSync('me');
+    logout() {
+      wx.clearStorageSync("accesstoken");
+      wx.clearStorageSync("me");
       this.visible = true;
     },
-    setListFrom(e){
+    setListFrom(e) {
       // e.target.dataset.item
-      wx.setStorageSync('fromItem',e.target.dataset.item)
+      wx.setStorageSync("fromItem", e.target.dataset.item);
     },
     closeModalEvent() {
       this.visible = false;
@@ -64,25 +64,25 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 .container {
   height: 100vh;
   background-color: rgb(245, 245, 249);
-}
-.body {
-  margin-top: 30rpx;
-  background-color: white;
-}
-.list-item {
-  height: 76rpx;
-  line-height: 76rpx;
-  margin: 0 30rpx;
-  padding: 10rpx 0;
-}
-.margin {
-  margin-top: 30rpx;
-}
-.list-item + .list-item {
-  border-top: 2rpx solid #888;
+  .body {
+    margin-top: 30rpx;
+    background-color: white;
+    .list-item {
+      height: 76rpx;
+      line-height: 76rpx;
+      margin: 0 30rpx;
+      padding: 10rpx 0;
+      & + & {
+        border-top: 2rpx solid $borderColor;
+      }
+    }
+    .margin {
+      margin-top: 30rpx;
+    }
+  }
 }
 </style>

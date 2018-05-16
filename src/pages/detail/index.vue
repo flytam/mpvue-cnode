@@ -310,14 +310,14 @@ export default {
         display: flex;
         margin-left: 26rpx;
         .time {
-          color: #888;
+          color: $borderColor;
         }
       }
     }
     .reply-content {
       font-size: 40rpx;
       & + & {
-        border-top: 2rpx solid #888;
+        border-top: 2rpx solid $borderColor;
       }
     }
     .foot {

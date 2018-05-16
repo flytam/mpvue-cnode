@@ -9,7 +9,7 @@
        <div>
         <div class='notice' v-for='item in currentData' :key='item.id' :data-id='item.id'>
           <div>
-            {{item.author.loginname}}在<span style='color:#41b883;' @click.stop='goDetail($event)' :data-topicid='item.topic.id'>{{item.topic.title}}</span>回复了你
+            {{item.author.loginname}}在<span style='color:$color;' @click.stop='goDetail($event)' :data-topicid='item.topic.id'>{{item.topic.title}}</span>回复了你
           </div>
           <div class='content'>
             {{item.reply.content}}
@@ -108,35 +108,35 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 .container {
   background-color: rgb(245, 245, 249);
-}
-.body {
-  display: flex;
-  flex-direction: column;
-}
-.tabs {
-  display: flex;
-  background-color: white;
-}
-.tabs > div {
-  width: 50%;
-  text-align: center;
+  .body {
+    display: flex;
+    flex-direction: column;
+    .tabs {
+      display: flex;
+      background-color: white;
+      & > div {
+        width: 50%;
+        text-align: center;
+      }
+    }
+    .notice {
+      background-color: white;
+      margin-bottom: 20rpx;
+      padding: 30rpx;
+      .content {
+        border-left: 4rpx solid $color;
+        padding-left: 10rpx;
+        margin: 10rpx 0;
+      }
+    }
+  }
 }
 .selected {
-  color: #41b883;
-  border-bottom: 2rpx solid #41b883;
-}
-.content {
-  border-left: 4rpx solid #41b883;
-  padding-left: 10rpx;
-  margin: 10rpx 0;
-}
-.notice {
-  background-color: white;
-  margin-bottom: 20rpx;
-  padding: 30rpx;
+  color: $color;
+  border-bottom: 2rpx solid $color;
 }
 </style>
 

@@ -72,7 +72,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang='scss' scoped>
 .container {
   height: 100vh;
   background-color: rgb(245, 245, 249);
