@@ -228,7 +228,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-$color: rgb(65, 184, 131);
 .container {
   height: 100vh;
   background-color: rgb(245, 245, 239);
