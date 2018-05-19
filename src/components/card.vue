@@ -6,6 +6,7 @@
         <span>{{item.author.loginname}}</span>
         <span class='time' v-if='!hidden'>{{formatCreateAt}}</span>
       </div>
+      <span class="top" v-if="item.top">置顶</span>
     </div>
     <div class='body'>
       <p>{{item.title}}</p>
@@ -81,6 +82,11 @@ export default {
       .time {
         color: $borderColor;
       }
+    }
+    .top {
+      position: absolute;
+      right: 40rpx;
+      color: red;
     }
   }
   .body {

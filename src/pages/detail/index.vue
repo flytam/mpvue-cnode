@@ -76,12 +76,14 @@ export default {
 
   methods: {
     async getData() {
+      const accesstoken = wx.getStorageSync("accesstoken");
       //this.id = wx.getStorageSync("topicid");
       wx.showLoading({
         title: "加载中"
       });
       const res = await this.$http.get(`${api}/topic/${this.id}`, {
-        mdrender: false
+        mdrender: false,
+        accesstoken
       });
       wx.hideLoading();
       if (res.data.success) {
@@ -150,7 +152,7 @@ export default {
     },
     async upOrCancel(e) {
       // / todo 防抖
-      // console.log(e);
+       console.log(e);
       const accesstoken = wx.getStorageSync("accesstoken");
       if (accesstoken) {
         try {
@@ -166,8 +168,10 @@ export default {
               icon: "none",
               duration: 2000
             });
+           // e.currentTarget.dataset.originindex
+           this.currentReplies[e.currentTarget.dataset.originindex].is_uped = res.data.action === 'up';
           }
-          this.getData();
+         // this.getData();
         } catch (e) {
           wx.showToast({
             title: e.response.data.error_msg,
@@ -244,6 +248,9 @@ export default {
       .author-img {
         width: 64rpx;
         height: 64rpx;
+      }
+      .name{
+        margin-left: 20rpx;
       }
     }
     .list {

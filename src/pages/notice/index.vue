@@ -3,10 +3,11 @@
      <login :visible='visible' v-on:modalClose='closeModalEvent'></login>
      <div class='body'>
        <div class='tabs'>
-         <div :class='{selected:tab==="unread"}' @click.stop='changeTab($event)' data-tab='unread'>未读消息</div>
+         <div :class='{selected:tab==="unread"}' @click.stop='changeTab($event)' data-tab='unread'>未读消息:{{unread.length}}</div>
          <div :class='{selected:tab==="read"}' @click.stop='changeTab($event)' data-tab='read'>已读消息</div>
        </div>
        <div>
+         <button  v-show="tab==='unread'" class='read-all' @click.stop='readAll'>一键已读</button>
         <div class='notice' v-for='item in currentData' :key='item.id' :data-id='item.id'>
           <div>
             {{item.author.loginname}}在<span style='color:$color;' @click.stop='goDetail($event)' :data-topicid='item.topic.id'>{{item.topic.title}}</span>回复了你
@@ -78,6 +79,19 @@ export default {
     }
   },
   methods: {
+    async readAll() {
+      const accesstoken = wx.getStorageSync("accesstoken");
+      const res = await this.$http.post(`${api}/message/mark_all`, {
+        accesstoken
+      });
+      if (res.data.success) {
+        wx.showToast({
+          title: "全部已读成功",
+          icon: "none",
+          duration: 2000
+        });
+      }
+    },
     closeModalEvent() {
       this.visible = false;
       this.getData();
@@ -131,6 +145,18 @@ export default {
         padding-left: 10rpx;
         margin: 10rpx 0;
       }
+    }
+    .read-all {
+      color: $color;
+      border: 2rpx solid $color;
+      font-size: 20rpx;
+      width: 99rpx;
+      border-radius: 20rpx;
+      height: 46rpx;
+      line-height: 46rpx;
+      text-align: center;
+      padding: 0;
+      margin: 10rpx;
     }
   }
 }
