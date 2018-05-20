@@ -13,8 +13,8 @@
       <div :class='{selected:tab==="preview"}' @click.stop='changeTab($event)' data-tab='preview'>预览</div>
     </div>
     <textarea v-show="tab==='markdown'" class='textarea' v-model="content"></textarea>
-    <div v-show="tab==='preview'" style="min-height:500rpx;background-color:white;margin-top:-20rpx;margin-bottom:30rpx;">
-     <wemark mdData='bug待修复'></wemark>
+    <div v-show="tab==='preview'">
+     <wemark :mdData='content' customStyle="min-height:500rpx;background-color:white;margin-top:-20rpx;margin-bottom:30rpx;"></wemark>
      </div>
     <button @click.stop="handle">发帖</button>
   </div>
@@ -22,7 +22,6 @@
 
 <script>
 import login from "../../components/login";
-//import wemark from "mpvue-wemark";
 import wemark from "mpvue-wemark";
 import { api } from "../../const";
 export default {

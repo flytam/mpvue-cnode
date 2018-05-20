@@ -9,7 +9,7 @@
         </div>
         <div class='list'><img @click.stop="collect" :src="detailData.is_collect?'../../../static/star2.png':'../../../static/star1.png'" style='width:40rpx;height:40rpx;'><span>楼主</span></div>
       </div>
-      <scroll-view class='body' scroll-y='true'  :scroll-top="top" enable-back-to-top='true' @scrolltolower='getMore'>
+      <scroll-view class='body' scroll-y='true'   @scroll='onScroll($event)' :scroll-top="top" enable-back-to-top='true' @scrolltolower='getMore'>
         <div class='title'>
           <p class='big'>{{detailData.title}}</p>
           <div class='time-info'>
@@ -75,6 +75,9 @@ export default {
   },
 
   methods: {
+    onScroll(e) {
+      this.top = e.target.scrollTop;
+    },
     async getData() {
       const accesstoken = wx.getStorageSync("accesstoken");
       //this.id = wx.getStorageSync("topicid");
@@ -131,17 +134,10 @@ export default {
       // console.log(11);
       setTimeout(() => (this.top = 0));
       this.top = 1;
-      // wx.pageScrollTo({
-      //   scrollTop: 500,
-      //   duration: 300
-      // });
     },
     getMore() {
       if (this.remainReplies.length > 0) {
-        this.currentReplies = [
-          ...this.currentReplies,
-          ...this.remainReplies.splice(0, 10)
-        ];
+        this.currentReplies.concat(this.remainReplies.splice(0, 10));
       } else {
         wx.showToast({
           title: "无更多数据",
@@ -152,7 +148,7 @@ export default {
     },
     async upOrCancel(e) {
       // / todo 防抖
-       console.log(e);
+      // console.log(e);
       const accesstoken = wx.getStorageSync("accesstoken");
       if (accesstoken) {
         try {
@@ -168,10 +164,18 @@ export default {
               icon: "none",
               duration: 2000
             });
-           // e.currentTarget.dataset.originindex
-           this.currentReplies[e.currentTarget.dataset.originindex].is_uped = res.data.action === 'up';
+            // e.currentTarget.dataset.originindex
+            if (res.data.action === "up"){
+              this.currentReplies[e.currentTarget.dataset.originindex].ups.length += 1;
+            }else{
+              this.currentReplies[e.currentTarget.dataset.originindex].ups.length -= 1;
+            }
+            
+            this.currentReplies[e.currentTarget.dataset.originindex].is_uped =
+              res.data.action === "up";
           }
-         // this.getData();
+          
+          // this.getData();
         } catch (e) {
           wx.showToast({
             title: e.response.data.error_msg,
@@ -249,7 +253,7 @@ export default {
         width: 64rpx;
         height: 64rpx;
       }
-      .name{
+      .name {
         margin-left: 20rpx;
       }
     }

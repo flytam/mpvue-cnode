@@ -12,7 +12,7 @@ API来自于[cnode社区](https://cnodejs.org/api)
 
 线上版本更新日志
 
-v0.0.4 修复几处样式，添加帖子热帖，发帖添加markdown预览，通知添加一键已读和点击已读  // markdown发布的预览有bug。。。没发布
+v0.0.4 修复几处样式，添加帖子热帖，发帖添加markdown预览，通知添加一键已读和点击已读  markdown发布的预览
 
 v0.0.3 添加扫码登陆
 
