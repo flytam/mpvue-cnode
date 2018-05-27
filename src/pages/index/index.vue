@@ -1,18 +1,20 @@
 <template>
   <div class='container'>
     <div class='header'>
-      <div :class='{ active: tab==="all" }' @click.stop='changeTab($event)' data-tab='all'>全部</div>
-      <div :class='{ active: tab==="good" }' @click.stop='changeTab($event)' data-tab='good'>精华</div>
-      <div :class='{ active: tab==="share" }' @click.stop='changeTab($event)' data-tab='share'>分享</div>
-      <div :class='{ active: tab==="job" }' @click.stop='changeTab($event)' data-tab='job'>招聘</div>
-      <div :class='{ active: tab==="ask" }' @click.stop='changeTab($event)' data-tab='ask'>问答</div>
+      <div :class='{ active: tab==="all" }' @click.stop='changeTab($event)' data-tab='all' :data-offset='0'>全部</div>
+      <div :class='{ active: tab==="good" }' @click.stop='changeTab($event)' data-tab='good' :data-offset='1'>精华</div>
+      <div :class='{ active: tab==="share" }' @click.stop='changeTab($event)' data-tab='share' :data-offset='2'>分享</div>
+      <div :class='{ active: tab==="job" }' @click.stop='changeTab($event)' data-tab='job' :data-offset='3'>招聘</div>
+      <div :class='{ active: tab==="ask" }' @click.stop='changeTab($event)' data-tab='ask' :data-offset='4'>问答</div>
     </div>
-    <div v-for='(listItem,listIndex) in list' :key='listIndex' v-show="listItem===tab">
-      <scroll-view scroll-y class='scroll-container' @scrolltolower='getMore'>
-        <div v-for='item in cardData[listItem]' :key='item.id'>
-          <card :item='item'></card>
-        </div>
-      </scroll-view>
+    <div class="containers" :animation='animation'>
+      <div v-for='(listItem,listIndex) in list' :key='listIndex'>
+        <scroll-view scroll-y class='scroll-container' @scrolltolower='getMore'>
+          <div v-for='item in cardData[listItem]' :key='item.id'>
+            <card :item='item'></card>
+          </div>
+        </scroll-view>
+      </div>
     </div>
   </div>
 </template>
@@ -34,12 +36,8 @@ export default {
         ask: []
       },
       isLoading: false,
-      list: ["all", "good", "share", "job", "ask"]
-      // all: [],
-      // good: [],
-      // share: [],
-      // job: [],
-      // ask: []
+      list: ["all", "good", "share", "job", "ask"],
+      animation: {}
     };
   },
   components: {
@@ -64,8 +62,6 @@ export default {
       if (res.data.success) {
         if (this.cardData[tab].length > 0 && page === 0) {
           // 下拉刷新
-          console.log("新的", res.data.data, tab);
-
           this.cardData[tab] = res.data.data;
           // res.data.data;
         } else {
@@ -89,13 +85,23 @@ export default {
     },
     changeTab(e) {
       const currentTab = e.target.dataset.tab;
+      const offset = e.target.dataset.offset;
       this.tab = currentTab;
       this.page = 0;
       this.getData(currentTab, 0);
+      this.animation = wx
+        .createAnimation({
+          duration: 1000,
+          timingFunction: "ease"
+        })
+        .left(`-${offset * 100}vw`)
+        .step()
+        .export();
     }
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .container {
   background-color: rgb(245, 245, 249);
@@ -111,11 +117,15 @@ export default {
       line-height: 86rpx;
     }
   }
-  .scroll-container {
-    height: 90vh;
+  .containers {
+    display: flex;
+    position: relative;
+    .scroll-container {
+      height: 90vh;
+      width: 100vw;
+    }
   }
 }
-
 .header .header > div + .header > div {
   border-left: 2rpx solid white;
 }
