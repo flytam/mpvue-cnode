@@ -106,6 +106,8 @@ export default {
 .container {
   background-color: rgb(245, 245, 249);
   font-size: 30rpx;
+  overflow:hidden;
+  width:100vw;
   .header {
     display: flex;
     & > div {

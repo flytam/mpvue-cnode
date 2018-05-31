@@ -11,6 +11,7 @@ API来自于[cnode社区](https://cnodejs.org/api)
 ![](./img/show.jpg)
 
 线上版本更新日志
+v0.0.5 修复帖子详情滑动卡顿问题 首页栏目切换动画修复 部分图标修复
 
 v0.0.4 修复几处样式，添加帖子热帖，发帖添加markdown预览，通知添加一键已读和点击已读  markdown发布的预览
 

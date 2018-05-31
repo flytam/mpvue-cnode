@@ -7,7 +7,7 @@
           <img class='author-img' :src='detailData.author && detailData.author.avatar_url' alt="头像">
           <span class='name'>{{detailData.author&& detailData.author.loginname}}</span>
         </div>
-        <div class='list'><img @click.stop="collect" :src="detailData.is_collect?'../../../static/star2.png':'../../../static/star1.png'" style='width:40rpx;height:40rpx;'><span>楼主</span></div>
+        <div class='list'><img @click.stop="collect" :src="detailData.is_collect?'../../static/star2.png':'../../static/star1.png'" style='width:40rpx;height:40rpx;'><span>楼主</span></div>
       </div>
       <scroll-view class='body' scroll-y='true'   @scroll='onScroll($event)' :scroll-top="top" enable-back-to-top='true' @scrolltolower='getMore'>
         <div class='title'>
@@ -18,7 +18,7 @@
             <span>评论:{{detailData.reply_count}}</span>
           </div>
         </div>
-        <img class='up-png' src="../../../static/up.png" mode='widthFix' @click.stop="goTop">
+        <img class='up-png' src="../../static/up.png" mode='widthFix' @click.stop="goTop">
         <div v-if='!sendVisible' class='reply-buton' @click.stop="showReplyModal">评论</div>
         <div class='content'>
           <wemark :mdData='detailData.content'></wemark>
@@ -37,8 +37,8 @@
               <wemark :mdData='item.content'></wemark>
             </p>
             <div class='foot'>
-              <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' :src="(!item.is_uped)?'../../../static/good1.png':'../../../static/good2.png'" /><span>点赞:{{item.ups.length}}</span></div>
-              <div :data-loginname='item.author.loginname' @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='../../../static/chat.png' /><span>回复</span></div>
+              <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' :src="(!item.is_uped)?'../../static/good1.png':'../../static/good2.png'" /><span>点赞:{{item.ups.length}}</span></div>
+              <div :data-loginname='item.author.loginname' @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='../../static/chat.png' /><span>回复</span></div>
             </div>
           </div>
         </div>
@@ -76,7 +76,10 @@ export default {
 
   methods: {
     onScroll(e) {
-      this.top = e.target.scrollTop;
+      if (this.timer){
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() =>this.top = e.target.scrollTop,500)
+      }
     },
     async getData() {
       const accesstoken = wx.getStorageSync("accesstoken");
@@ -229,7 +232,8 @@ export default {
       sendVisible: false,
       id: "",
       replyId: "",
-      top: 0
+      top: 0,
+      timer: null
     };
   }
 };
