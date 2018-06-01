@@ -23,23 +23,23 @@ export default {
       list: [{
         pagePath: 'pages/index/main',
         text: '首页',
-        iconPath:'./static/home.png',
-        selectedIconPath:'./static/home.png'
+        iconPath:'static/home.png',
+        selectedIconPath:'static/home.png'
       }, {
         pagePath: 'pages/notice/main',
         text: '通知',
-        iconPath:'./static/notice-o.png',
-        selectedIconPath:'./static/notice-o.png'
+        iconPath:'static/notice-o.png',
+        selectedIconPath:'static/notice-o.png'
       }, {
         pagePath: 'pages/publish/main',
         text: '发帖',
-        iconPath:'./static/edit.png',
-        selectedIconPath:'./static/edit.png'
+        iconPath:'static/edit.png',
+        selectedIconPath:'static/edit.png'
       }, {
         pagePath: 'pages/me/main',
         text: '我',
-        iconPath:'./static/user-o.png',
-        selectedIconPath:'./static/user-o.png'
+        iconPath:'static/user-o.png',
+        selectedIconPath:'static/user-o.png'
       }]
     },
   }

@@ -7,7 +7,7 @@
           <img class='author-img' :src='detailData.author && detailData.author.avatar_url' alt="头像">
           <span class='name'>{{detailData.author&& detailData.author.loginname}}</span>
         </div>
-        <div class='list'><img @click.stop="collect" :src="detailData.is_collect?'../../static/star2.png':'../../static/star1.png'" style='width:40rpx;height:40rpx;'><span>楼主</span></div>
+        <div class='list'><img @click.stop="collect" :src="detailData.is_collect?'/static/star2.png':'/static/star1.png'" style='width:40rpx;height:40rpx;'><span>楼主</span></div>
       </div>
       <scroll-view class='body' scroll-y='true'   @scroll='onScroll($event)' :scroll-top="top" enable-back-to-top='true' @scrolltolower='getMore'>
         <div class='title'>
@@ -18,7 +18,7 @@
             <span>评论:{{detailData.reply_count}}</span>
           </div>
         </div>
-        <img class='up-png' src="../../static/up.png" mode='widthFix' @click.stop="goTop">
+        <img class='up-png' src="/static/up.png" mode='widthFix' @click.stop="goTop">
         <div v-if='!sendVisible' class='reply-buton' @click.stop="showReplyModal">评论</div>
         <div class='content'>
           <wemark :mdData='detailData.content'></wemark>
@@ -37,8 +37,8 @@
               <wemark :mdData='item.content'></wemark>
             </p>
             <div class='foot'>
-              <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' :src="(!item.is_uped)?'../../static/good1.png':'../../static/good2.png'" /><span>点赞:{{item.ups.length}}</span></div>
-              <div :data-loginname='item.author.loginname' @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='../../static/chat.png' /><span>回复</span></div>
+              <div :data-replyid='item.id' :data-originindex='originindex' @click.stop="upOrCancel($event)"><img class='icon' :src="(!item.is_uped)?'/static/good1.png':'/static/good2.png'" /><span>点赞:{{item.ups.length}}</span></div>
+              <div :data-loginname='item.author.loginname' @click.stop="showReplyModal($event)" :data-replyid='item.id'><img class='icon' src='/static/chat.png' /><span>回复</span></div>
             </div>
           </div>
         </div>
@@ -49,9 +49,12 @@
 
 <script>
 import { api } from "../../const";
-import { passTime } from "../../utils";
+import { passTime, debounce} from "../../utils";
 import sendReply from "../../components/sendReply";
 import wemark from "mpvue-wemark";
+const debounceOnScroll = () => debounce(function(e){
+  this.top = e.target.scrollTop
+});
 export default {
   components: {
     wemark,
@@ -75,12 +78,7 @@ export default {
   },
 
   methods: {
-    onScroll(e) {
-      if (this.timer){
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() =>this.top = e.target.scrollTop,500)
-      }
-    },
+    onScroll : debounceOnScroll(),
     async getData() {
       const accesstoken = wx.getStorageSync("accesstoken");
       //this.id = wx.getStorageSync("topicid");
@@ -135,8 +133,7 @@ export default {
     },
     goTop() {
       // console.log(11);
-      setTimeout(() => (this.top = 0));
-      this.top = 1;
+      this.top = 0;
     },
     getMore() {
       if (this.remainReplies.length > 0) {
