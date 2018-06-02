@@ -26,11 +26,9 @@
 <script>
 import { api } from "../../const";
 import login from "../../components/login";
-import card from "../../components/card";
 import { passTime } from "../../utils/index";
 export default {
   components: {
-    card,
     login
   },
   data() {
@@ -125,6 +123,7 @@ export default {
 <style lang='scss' scoped>
 .container {
   background-color: rgb(245, 245, 249);
+  width: 100vw;
   .body {
     display: flex;
     flex-direction: column;
@@ -144,6 +143,8 @@ export default {
         border-left: 4rpx solid $color;
         padding-left: 10rpx;
         margin: 10rpx 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
     .read-all {
