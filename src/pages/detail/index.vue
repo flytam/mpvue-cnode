@@ -219,6 +219,7 @@ export default {
   },
   onLoad() {
     this.id = this.$root.$mp.query.topicid;
+    this.top =0;
   },
   data() {
     return {
