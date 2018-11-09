@@ -1,4 +1,3 @@
-import { POINT_CONVERSION_COMPRESSED } from "constants";
 
 function formatNumber(n) {
   const str = n.toString()
