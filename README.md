@@ -30,7 +30,7 @@ npm install
 
 npm run dev
 
-//使用微信开发者工具打开dist目录，关闭域名和https检查即可
+//使用微信开发者工具打开，关闭域名和https检查即可
 ```
 
 
@@ -50,49 +50,39 @@ npm run dev
     - card 单一帖子头组件
     - authorHead 作者信息头
     - login 登录组件
-    - sendreply 回复、评论组建
+    - sendreply 回复、评论组件
   - const.js 常量
   - utils 一些工具函数
 - static 静态图片部分
 
-目前已经完成了绝大部分功能，尚未完成的功能在和遇到的问题在todo中
 
 目前存在的问题
 
-小程序无法动态插入dom，markdwon的解析有点问题， [wemark](https://github.com/TooBug/wemark)在mpvue上使用需要改造下。已封装[mpvue-wemark](https://github.com/673800357/mpvue-wemark)解决
+~~小程序无法动态插入dom，markdwon的解析有点问题~~，在[wemark](https://github.com/TooBug/wemark)基础上改造了下[mpvue-wemark](https://github.com/flytam/mpvue-wemark)解决
 
 
 todo
 
   - 编辑自己发过的主题
-  - 展示未读消息数和消息已读
+  - ~~展示未读消息数和消息已读~~
 
 
-优化 
+优化
  - 请求失败状态码非200会抛异常，如何统一优雅处理
  - 部分页面添加下拉刷新
- - 到顶部代码不清真。
-  
+ - ~~到顶部代码不清真。~~
+
 后话：
 
-这个项目没有涉及到太多复杂的部分，主要到是业务逻辑的开发，所有的对于作为一个vue和mpvue小程序入门项目是非常合适的。由于开发时间短，部分代码质量和交互做得不太好。对于未完成的部分和部分未知bug欢迎各位star、提issue、提pr一起来玩2333.
+这个项目没有涉及到太多复杂的部分，主要到是业务逻辑的开发，也是自己第一个用vue写的东西。所以的对于作为一个vue和mpvue小程序入门项目是非常合适的。由于开发时间短，部分代码质量和交互做得不太好。
 
-效果图
+部分效果图
 
-
-![](./img/home.png)
-
-
-![](./img/2.png)
-
-
-![](./img/3.png)
-
-
-![](./img/4.png)
-
-
-![](./img/5.png)
+<img src="./img/1.png" width="50%" height="50%">
+<img src="./img/2.png" width="50%" height="50%">
+<img src="./img/3.png" width="50%" height="50%">
+<img src="./img/4.png" width="50%" height="50%">
+<img src="./img/5.png" width="50%" height="50%">
 
 - License
 

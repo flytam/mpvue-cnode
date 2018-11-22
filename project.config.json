@@ -9,7 +9,7 @@
 	},
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
-	"appid": "	wx4f6a5800a8abe179",
+	"appid": "wx4f6a5800a8abe179",
 	"projectname": "mpvue-cnode",
 	"condition": {
 		"search": {
